@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,10 +37,19 @@ public class Main {
         mercedes.setDrivers(mercedesDrivers(mercedes));
         teamsList.add(mercedes);
 
+        /*teamsList.forEach(team -> {
+                System.out.print(team.toString());
+                team.getDrivers().forEach(System.out::println);
+            }
+        );*/
+
         Set<Driver> drivers = createDriversSet(teamsList);
-        //System.out.print(drivers.toString());
+        drivers.stream().forEach(System.out::println);
+
+        //filter(drivers);
+
         List<DriverDTO> driverDTOS = transformIntoDTO(drivers);
-        //System.out.print(driverDTOS.toString());
+        driverDTOS.stream().forEach(System.out::println);
     }
 
     //functions initializing program data using Builder pattern from Lombok library
@@ -106,16 +116,21 @@ public class Main {
         return tmp;
     }
 
-    //function that creates set of drivers using Stream API
     private static Set<Driver> createDriversSet(List<Team> teams){
+        //function that creates set of drivers using Stream API
         Set<Driver> drivers = teams.stream()
                 .flatMap(team -> team.getDrivers().stream())
                 .collect(Collectors.toSet());
         return drivers;
     };
-
-    //function that transform Driver class objects into their DTO class
+    private static void filter(Set<Driver> drivers){
+        drivers.stream()
+                .filter(driver -> "Mercedes AMG Petronas Formula One Team".equals(driver.getCurrentTeam().getName()))
+                .sorted(Comparator.comparingInt(Driver::getAge))
+                .forEach(System.out::println);
+    }
     public static List<DriverDTO> transformIntoDTO(Set<Driver> allDrivers){
+        //function that transform Driver class objects into their DTO class
         List<DriverDTO> driverDTOList = allDrivers.stream()
                 .map(driver -> DriverDTO.builder()
                         .firstName(driver.getFirstName())
@@ -126,7 +141,7 @@ public class Main {
                         racesEntered(driver.getRacesEntered()).
                         racesWon(driver.getRacesWon()).
                         podiums(driver.getPodiums()).
-                        polePositions(driver.getPodiums()).
+                        polePositions(driver.getPolePositions()).
                         titlesWon(driver.getTitlesWon()).
                         build()
                 )

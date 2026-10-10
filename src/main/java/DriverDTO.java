@@ -24,8 +24,8 @@ public class DriverDTO implements Comparable<DriverDTO>{
             return true;
         }
 
-        if(other instanceof Driver){
-            Driver tmp = (Driver)other;
+        if(other instanceof DriverDTO){
+            DriverDTO tmp = (DriverDTO)other;
             return Objects.equals(raceNumber, tmp.raceNumber);
         }
         return false;
