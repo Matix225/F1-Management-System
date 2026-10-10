@@ -1,6 +1,8 @@
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Objects;
+
 @Data
 @Builder
 public class Driver implements Comparable<Driver>{
@@ -17,6 +19,22 @@ public class Driver implements Comparable<Driver>{
     int titlesWon;
 
     @Override
+    public boolean equals(Object other){
+        if(this == other){
+            return true;
+        }
+
+        if(other instanceof Driver){
+            Driver tmp = (Driver)other;
+            return Objects.equals(raceNumber, tmp.raceNumber);
+        }
+        return false;
+    }
+    @Override
+    public int hashCode(){
+        return Objects.hash(raceNumber);
+    }
+    @Override
     public int compareTo(Driver other){
         //first drivers will be sort by grand prix appearance
         //then by podiums, grand prix wins, and at the end by first name and last name
@@ -32,7 +50,7 @@ public class Driver implements Comparable<Driver>{
         }
         //GP wins
         if(Integer.compare(this.racesWon, other.racesWon) != 0){
-            return Integer.compare(this.racesEntered, other.racesEntered);
+            return Integer.compare(this.racesWon, other.racesWon);
         }
         //First name
         if(this.firstName.compareTo(other.firstName) != 0){

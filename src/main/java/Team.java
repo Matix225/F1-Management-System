@@ -1,4 +1,6 @@
 import java.util.List;
+import java.util.Objects;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,6 +20,23 @@ public class Team implements Comparable<Team>{
 
     List<Driver> drivers;
 
+    @Override
+    public boolean equals(Object other){
+        if(this == other){
+            return true;
+        }
+
+        if(other instanceof Team){
+            Team tmp = (Team)other;
+            return Objects.equals(name, tmp.name);
+        }
+
+        return false;
+    };
+    @Override
+    public int hashCode(){
+        return Objects.hash(name);
+    };
     @Override
     public int compareTo(Team other){
         //first teams will be sort by name, then by number of championships,

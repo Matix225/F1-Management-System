@@ -36,8 +36,10 @@ public class Main {
         mercedes.setDrivers(mercedesDrivers(mercedes));
         teamsList.add(mercedes);
 
-        /*Set<Driver> drivers = createDriversSet(teamsList);
-        System.out.print(drivers.toString());*/
+        Set<Driver> drivers = createDriversSet(teamsList);
+        //System.out.print(drivers.toString());
+        List<DriverDTO> driverDTOS = transformIntoDTO(drivers);
+        //System.out.print(driverDTOS.toString());
     }
 
     //functions initializing program data using Builder pattern from Lombok library
@@ -57,7 +59,7 @@ public class Main {
         Driver red2 = Driver.builder()
                 .firstName("Isac")
                 .lastName("Hadjar")
-                .age(29)
+                .age(22)
                 .raceNumber(6)
                 .currentTeam(team)
                 .racesEntered(36)
@@ -111,4 +113,25 @@ public class Main {
                 .collect(Collectors.toSet());
         return drivers;
     };
+
+    //function that transform Driver class objects into their DTO class
+    public static List<DriverDTO> transformIntoDTO(Set<Driver> allDrivers){
+        List<DriverDTO> driverDTOList = allDrivers.stream()
+                .map(driver -> DriverDTO.builder()
+                        .firstName(driver.getFirstName())
+                        .lastName(driver.getLastName()).
+                        age(driver.getAge()).
+                        raceNumber(driver.getRaceNumber()).
+                        teamName(driver.getCurrentTeam().getName()).
+                        racesEntered(driver.getRacesEntered()).
+                        racesWon(driver.getRacesWon()).
+                        podiums(driver.getPodiums()).
+                        polePositions(driver.getPodiums()).
+                        titlesWon(driver.getTitlesWon()).
+                        build()
+                )
+                .sorted()
+                .collect(Collectors.toList());
+        return driverDTOList;
+    }
 }

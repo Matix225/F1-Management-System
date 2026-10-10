@@ -1,4 +1,11 @@
-public class DriverDTO {
+import lombok.Builder;
+import lombok.Data;
+
+import java.util.Objects;
+
+@Data
+@Builder
+public class DriverDTO implements Comparable<DriverDTO>{
     String firstName;
     String lastName;
     int age;
@@ -10,4 +17,63 @@ public class DriverDTO {
     int podiums;
     int polePositions;
     int titlesWon;
+
+    @Override
+    public boolean equals(Object other){
+        if(this == other){
+            return true;
+        }
+
+        if(other instanceof Driver){
+            Driver tmp = (Driver)other;
+            return Objects.equals(raceNumber, tmp.raceNumber);
+        }
+        return false;
+    }
+    @Override
+    public int hashCode(){
+        return Objects.hash(raceNumber);
+    }
+    @Override
+    public int compareTo(DriverDTO other){
+        //first drivers will be sort by grand prix appearance
+        //then by podiums, grand prix wins, and at the end by first name and last name
+
+        //First name
+        if(this.firstName.compareTo(other.firstName) != 0){
+            return this.firstName.compareTo(other.firstName);
+        }
+        //Last name
+        if(this.lastName.compareTo(other.lastName) != 0){
+            return this.lastName.compareTo(other.lastName);
+        }
+        //Team name
+        if(this.teamName.compareTo(other.teamName) != 0){
+            return this.teamName.compareTo(other.teamName);
+        }
+        //GP appearance
+        if(Integer.compare(this.racesEntered, other.racesEntered) != 0){
+            return Integer.compare(this.racesEntered, other.racesEntered);
+        }
+        //Podiums
+        if(Integer.compare(this.podiums, other.podiums) != 0){
+            return Integer.compare(this.podiums, other.podiums);
+        }
+        //GP wins
+        return Integer.compare(this.racesWon, other.racesWon);
+    };
+    @Override
+    public String toString(){
+        return "{\n"
+                + " Full name: " + firstName + " " + lastName + "\n"
+                + " Age: " + age + "\n"
+                + " Race number: " + raceNumber + "\n"
+                + " Team: " + teamName + "\n"
+                + " Races entered: " + racesEntered + "\n"
+                + " Races won: " + racesWon + "\n"
+                + " Podiums: " + podiums + "\n"
+                + " Pole positions: " + polePositions + "\n"
+                + " Driver championship title: " + titlesWon + "\n"
+                + "}\n";
+    }
 }
