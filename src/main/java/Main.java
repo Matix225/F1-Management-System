@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -44,12 +45,16 @@ public class Main {
         );*/
 
         Set<Driver> drivers = createDriversSet(teamsList);
-        drivers.stream().forEach(System.out::println);
+        //drivers.stream().forEach(System.out::println);
 
         //filter(drivers);
 
         List<DriverDTO> driverDTOS = transformIntoDTO(drivers);
-        driverDTOS.stream().forEach(System.out::println);
+        //driverDTOS.stream().forEach(System.out::println);
+
+        //data serialization and deserialization
+        writeToFile(teamsList);
+        readFromFile();
     }
 
     //functions initializing program data using Builder pattern from Lombok library
@@ -148,5 +153,43 @@ public class Main {
                 .sorted()
                 .collect(Collectors.toList());
         return driverDTOList;
+    }
+
+    //data serialization
+    public static void writeToFile(List<Team> teams){
+        String fileName = "Data.ser";
+        try(FileOutputStream file = new FileOutputStream(fileName)){
+            ObjectOutputStream stream = new ObjectOutputStream(file);
+
+            for (Team team : teams) {
+                stream.writeObject(team);
+            }
+            System.out.println("Serialization complete!");
+        }
+        catch(IOException e){
+            throw new RuntimeException(e);
+        }
+    }
+    //data deserialization
+    public static void readFromFile(){
+        String fileName = "Data.ser";
+        try(FileInputStream file = new FileInputStream(fileName)){
+            ObjectInputStream stream = new ObjectInputStream(file);
+
+            List<Team> teams = new ArrayList<>();
+            for(int i = 0; i < 2; i++){
+                Team newTeam = (Team)stream.readObject();
+                teams.add(newTeam);
+            }
+
+            System.out.println("Deserialization complete!");
+            teams.forEach(team-> {
+                System.out.println(team.toString());
+                team.getDrivers().forEach(System.out::println);
+            });
+        }
+        catch(IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

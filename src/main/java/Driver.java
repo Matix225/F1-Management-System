@@ -1,11 +1,12 @@
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Data
 @Builder
-public class Driver implements Comparable<Driver>{
+public class Driver implements Comparable<Driver>, Serializable {
     String firstName;
     String lastName;
     int age;

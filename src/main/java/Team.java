@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -6,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Team implements Comparable<Team>{
+public class Team implements Comparable<Team>, Serializable {
     String name;
     int firstEntry;
     String country;
