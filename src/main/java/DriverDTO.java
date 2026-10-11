@@ -36,8 +36,8 @@ public class DriverDTO implements Comparable<DriverDTO>{
     }
     @Override
     public int compareTo(DriverDTO other){
-        //first drivers will be sort by grand prix appearance
-        //then by podiums, grand prix wins, and at the end by first name and last name
+        //first drivers will be sort by first name and last name
+        //then by grand prix appearance, podiums, and at the end by grand prix wins
 
         //First name
         if(this.firstName.compareTo(other.firstName) != 0){

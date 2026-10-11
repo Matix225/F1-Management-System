@@ -3,10 +3,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
+    public static final int numberOfTeams = 2;
     public static void main(){
         List<Team> teamsList = new ArrayList<>();
 
@@ -53,8 +55,39 @@ public class Main {
         //driverDTOS.stream().forEach(System.out::println);
 
         //data serialization and deserialization
-        writeToFile(teamsList);
-        readFromFile();
+        //writeToFile(teamsList);
+        //readFromFile();
+
+
+        //create paralel pipelines to calculate avg win rate for drivers which complete at least 100 Grand Prix
+        try(ForkJoinPool threadPool = new ForkJoinPool(2)){
+            Runnable task = () -> {
+                teamsList.parallelStream()
+                        .filter(team -> team.getTotalRaces() >= 210)
+                        .forEach(team -> {
+                            System.out.println(team.getName());
+                            team.getDrivers().stream()
+                                    .filter(driver -> driver.getRacesEntered() >= 100)
+                                    .forEach(driver -> {
+                                        try {
+                                            Thread.sleep(300);
+                                        }
+                                        catch (InterruptedException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                        System.out.println("Full name: " + driver.getFirstName() + " " + driver.getLastName());
+                                        System.out.println("GP entered: " + driver.getRacesEntered() + "\n");
+                                        System.out.println("Win rate: " + ((double)driver.getRacesWon() / driver.getRacesEntered()) * 100 + "\n");
+                                    });
+                        });
+            };
+
+            threadPool.submit(task).join();
+            threadPool.shutdown();
+        }
+        catch(IllegalArgumentException e){
+        }
+
     }
 
     //functions initializing program data using Builder pattern from Lombok library
@@ -177,7 +210,7 @@ public class Main {
             ObjectInputStream stream = new ObjectInputStream(file);
 
             List<Team> teams = new ArrayList<>();
-            for(int i = 0; i < 2; i++){
+            for(int i = 0; i < numberOfTeams; i++){
                 Team newTeam = (Team)stream.readObject();
                 teams.add(newTeam);
             }
@@ -192,4 +225,6 @@ public class Main {
             throw new RuntimeException(e);
         }
     }
+
+
 }
