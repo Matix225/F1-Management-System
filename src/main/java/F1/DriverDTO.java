@@ -1,17 +1,18 @@
+package F1;
+
 import lombok.Builder;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 @Data
 @Builder
-public class Driver implements Comparable<Driver>, Serializable {
+public class DriverDTO implements Comparable<DriverDTO>{
     String firstName;
     String lastName;
     int age;
     int raceNumber;
-    Team currentTeam;
+    String teamName;
 
     int racesEntered;
     int racesWon;
@@ -25,8 +26,8 @@ public class Driver implements Comparable<Driver>, Serializable {
             return true;
         }
 
-        if(other instanceof Driver){
-            Driver tmp = (Driver)other;
+        if(other instanceof DriverDTO){
+            DriverDTO tmp = (DriverDTO)other;
             return Objects.equals(raceNumber, tmp.raceNumber);
         }
         return false;
@@ -36,43 +37,45 @@ public class Driver implements Comparable<Driver>, Serializable {
         return Objects.hash(raceNumber);
     }
     @Override
-    public int compareTo(Driver other){
-        //first drivers will be sort by grand prix appearance
-        //then by podiums, grand prix wins, and at the end by first name and last name
+    public int compareTo(DriverDTO other){
+        //first drivers will be sort by first name and last name
+        //then by grand prix appearance, podiums, and at the end by grand prix wins
 
-        //GP appearance
-        if(Integer.compare(this.racesEntered, other.racesEntered) != 0){
-            return Integer.compare(this.racesEntered, other.racesEntered);
-        }
-
-        //Podiums achived
-        if(Integer.compare(this.podiums, other.podiums) != 0){
-            return Integer.compare(this.podiums, other.podiums);
-        }
-        //GP wins
-        if(Integer.compare(this.racesWon, other.racesWon) != 0){
-            return Integer.compare(this.racesWon, other.racesWon);
-        }
         //First name
         if(this.firstName.compareTo(other.firstName) != 0){
             return this.firstName.compareTo(other.firstName);
         }
         //Last name
-        return this.lastName.compareTo(other.lastName);
+        if(this.lastName.compareTo(other.lastName) != 0){
+            return this.lastName.compareTo(other.lastName);
+        }
+        //F1.Team name
+        if(this.teamName.compareTo(other.teamName) != 0){
+            return this.teamName.compareTo(other.teamName);
+        }
+        //GP appearance
+        if(Integer.compare(this.racesEntered, other.racesEntered) != 0){
+            return Integer.compare(this.racesEntered, other.racesEntered);
+        }
+        //Podiums
+        if(Integer.compare(this.podiums, other.podiums) != 0){
+            return Integer.compare(this.podiums, other.podiums);
+        }
+        //GP wins
+        return Integer.compare(this.racesWon, other.racesWon);
     };
     @Override
     public String toString(){
-
         return "{\n"
                 + " Full name: " + firstName + " " + lastName + "\n"
                 + " Age: " + age + "\n"
                 + " Race number: " + raceNumber + "\n"
-                + " Team: " + currentTeam.name + "\n"
+                + " F1.Team: " + teamName + "\n"
                 + " Races entered: " + racesEntered + "\n"
                 + " Races won: " + racesWon + "\n"
                 + " Podiums: " + podiums + "\n"
                 + " Pole positions: " + polePositions + "\n"
-                + " Driver championship title: " + titlesWon + "\n"
+                + " F1.Driver championship title: " + titlesWon + "\n"
                 + "}\n";
     }
 }

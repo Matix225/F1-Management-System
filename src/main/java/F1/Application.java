@@ -1,18 +1,15 @@
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ForkJoinPool;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+package F1;
 
-public class Main {
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/*public class Main {
     public static final int numberOfTeams = 2;
-    public static void main(){
-        List<Team> teamsList = new ArrayList<>();
 
-        Team redBull = Team.builder()
+    /*public static void main(){
+        List<F1.Team> teamsList = new ArrayList<>();
+
+        F1.Team redBull = F1.Team.builder()
                 .name("Oracle Red Bull Racing")
                 .firstEntry(2005)
                 .country("Austria")
@@ -26,8 +23,8 @@ public class Main {
         redBull.setDrivers(redBullDrivers(redBull));
         teamsList.add(redBull);
 
-        Team mercedes = Team.builder()
-                .name("Mercedes AMG Petronas Formula One Team")
+        F1.Team mercedes = F1.Team.builder()
+                .name("Mercedes AMG Petronas Formula One F1.Team")
                 .firstEntry(1970)
                 .country("Germany")
                 .headquarters("Brackley")
@@ -40,18 +37,18 @@ public class Main {
         mercedes.setDrivers(mercedesDrivers(mercedes));
         teamsList.add(mercedes);
 
-        /*teamsList.forEach(team -> {
+        teamsList.forEach(team -> {
                 System.out.print(team.toString());
                 team.getDrivers().forEach(System.out::println);
             }
-        );*/
+        );
 
-        Set<Driver> drivers = createDriversSet(teamsList);
+        Set<F1.Driver> drivers = createDriversSet(teamsList);
         //drivers.stream().forEach(System.out::println);
 
         //filter(drivers);
 
-        List<DriverDTO> driverDTOS = transformIntoDTO(drivers);
+        List<F1.DriverDTO> driverDTOS = transformIntoDTO(drivers);
         //driverDTOS.stream().forEach(System.out::println);
 
         //data serialization and deserialization
@@ -91,8 +88,8 @@ public class Main {
     }
 
     //functions initializing program data using Builder pattern from Lombok library
-    private static List<Driver> redBullDrivers(Team team){
-        Driver red1 = Driver.builder()
+    /*private static List<F1.Driver> redBullDrivers(F1.Team team){
+        F1.Driver red1 = F1.Driver.builder()
                 .firstName("Max")
                 .lastName("Verstappen")
                 .age(29)
@@ -104,7 +101,7 @@ public class Main {
                 .polePositions(49)
                 .titlesWon(4)
                 .build();
-        Driver red2 = Driver.builder()
+        F1.Driver red2 = F1.Driver.builder()
                 .firstName("Isac")
                 .lastName("Hadjar")
                 .age(22)
@@ -116,14 +113,14 @@ public class Main {
                 .polePositions(0)
                 .titlesWon(0)
                 .build();
-        List<Driver> tmp = new ArrayList<>();
+        List<F1.Driver> tmp = new ArrayList<>();
         tmp.add(red1);
         tmp.add(red2);
 
         return tmp;
     }
-    private static List<Driver> mercedesDrivers(Team team){
-        Driver mer1 = Driver.builder()
+    private static List<F1.Driver> mercedesDrivers(F1.Team team){
+        F1.Driver mer1 = F1.Driver.builder()
                 .firstName("George")
                 .lastName("Russell")
                 .age(29)
@@ -135,7 +132,7 @@ public class Main {
                 .polePositions(13)
                 .titlesWon(0)
                 .build();
-        Driver mer2 = Driver.builder()
+        F1.Driver mer2 = F1.Driver.builder()
                 .firstName("Kimi")
                 .lastName("Antonelli")
                 .age(18)
@@ -147,30 +144,30 @@ public class Main {
                 .polePositions(6)
                 .titlesWon(0)
                 .build();
-        List<Driver> tmp = new ArrayList<>();
+        List<F1.Driver> tmp = new ArrayList<>();
         tmp.add(mer1);
         tmp.add(mer2);
 
         return tmp;
-    }
+    }*/
 
-    private static Set<Driver> createDriversSet(List<Team> teams){
+    /*private static Set<F1.Driver> createDriversSet(List<F1.Team> teams){
         //function that creates set of drivers using Stream API
-        Set<Driver> drivers = teams.stream()
+        Set<F1.Driver> drivers = teams.stream()
                 .flatMap(team -> team.getDrivers().stream())
                 .collect(Collectors.toSet());
         return drivers;
     };
-    private static void filter(Set<Driver> drivers){
+    private static void filter(Set<F1.Driver> drivers){
         drivers.stream()
-                .filter(driver -> "Mercedes AMG Petronas Formula One Team".equals(driver.getCurrentTeam().getName()))
-                .sorted(Comparator.comparingInt(Driver::getAge))
+                .filter(driver -> "Mercedes AMG Petronas Formula One F1.Team".equals(driver.getCurrentTeam().getName()))
+                .sorted(Comparator.comparingInt(F1.Driver::getAge))
                 .forEach(System.out::println);
-    }
-    public static List<DriverDTO> transformIntoDTO(Set<Driver> allDrivers){
-        //function that transform Driver class objects into their DTO class
-        List<DriverDTO> driverDTOList = allDrivers.stream()
-                .map(driver -> DriverDTO.builder()
+    }*/
+    /*public static List<F1.DriverDTO> transformIntoDTO(Set<F1.Driver> allDrivers){
+        //function that transform F1.Driver class objects into their DTO class
+        List<F1.DriverDTO> driverDTOList = allDrivers.stream()
+                .map(driver -> F1.DriverDTO.builder()
                         .firstName(driver.getFirstName())
                         .lastName(driver.getLastName()).
                         age(driver.getAge()).
@@ -189,12 +186,12 @@ public class Main {
     }
 
     //data serialization
-    public static void writeToFile(List<Team> teams){
+    public static void writeToFile(List<F1.Team> teams){
         String fileName = "Data.ser";
         try(FileOutputStream file = new FileOutputStream(fileName)){
             ObjectOutputStream stream = new ObjectOutputStream(file);
 
-            for (Team team : teams) {
+            for (F1.Team team : teams) {
                 stream.writeObject(team);
             }
             System.out.println("Serialization complete!");
@@ -209,9 +206,9 @@ public class Main {
         try(FileInputStream file = new FileInputStream(fileName)){
             ObjectInputStream stream = new ObjectInputStream(file);
 
-            List<Team> teams = new ArrayList<>();
+            List<F1.Team> teams = new ArrayList<>();
             for(int i = 0; i < numberOfTeams; i++){
-                Team newTeam = (Team)stream.readObject();
+                F1.Team newTeam = (F1.Team)stream.readObject();
                 teams.add(newTeam);
             }
 
@@ -224,7 +221,14 @@ public class Main {
         catch(IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }*/
+//}
+
+
+
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
     }
-
-
 }
