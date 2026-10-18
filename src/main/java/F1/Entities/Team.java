@@ -43,7 +43,7 @@ public class Team implements Comparable<Team>, Serializable {
     @Column(name = "championshipsWon")
     private int championshipsWon;
 
-    @OneToMany(mappedBy = "driver")
+    @OneToMany(mappedBy = "currentTeam")
     private List<Driver> drivers;
 
     //methods

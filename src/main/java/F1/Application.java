@@ -24,7 +24,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         teamsList.add(redBull);
 
         F1.Team mercedes = F1.Team.builder()
-                .name("Mercedes AMG Petronas Formula One F1.Team")
+                .name("Mercedes-AMG Petronas Formula One F1.Team")
                 .firstEntry(1970)
                 .country("Germany")
                 .headquarters("Brackley")

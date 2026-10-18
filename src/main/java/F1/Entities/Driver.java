@@ -44,7 +44,7 @@ public class Driver implements Comparable<Driver>, Serializable {
     private int titlesWon;
 
     @ManyToOne
-    @JoinColumn(name = "team")
+    @JoinColumn(name = "team_id")
     private Team currentTeam;
 
     public boolean equals(Object other){
