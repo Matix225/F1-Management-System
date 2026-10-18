@@ -25,7 +25,7 @@ public class Driver implements Comparable<Driver>, Serializable {
     @Column(name = "age")
     private int age;
 
-    @Column(name = "raceNumber")
+    @Column(name = "raceNumber", nullable = false, unique = true)
     private int raceNumber;
 
     @Column(name = "racesEntered")
