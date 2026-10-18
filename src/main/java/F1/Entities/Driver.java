@@ -94,12 +94,12 @@ public class Driver implements Comparable<Driver>, Serializable {
                 + " Full name: " + firstName + " " + lastName + "\n"
                 + " Age: " + age + "\n"
                 + " Race number: " + raceNumber + "\n"
-                + " F1.Team: " + currentTeam.getName() + "\n"
+                + " Team: " + currentTeam.getName() + "\n"
                 + " Races entered: " + racesEntered + "\n"
                 + " Races won: " + racesWon + "\n"
                 + " Podiums: " + podiums + "\n"
                 + " Pole positions: " + polePositions + "\n"
-                + " F1.Driver championship title: " + titlesWon + "\n"
+                + " Driver championship title: " + titlesWon + "\n"
                 + "}\n";
     }
 }

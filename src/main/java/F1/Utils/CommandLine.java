@@ -1,7 +1,9 @@
 package F1.Utils;
 
 import F1.Entities.Driver;
+import F1.Entities.Team;
 import F1.Services.DriverService;
+import F1.Services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -12,19 +14,24 @@ import java.util.Scanner;
 @Component
 public class CommandLine implements CommandLineRunner {
     private final DriverService driverService;
+    private final TeamService teamService;
+    private final DataInitializer dataInitializer;
+
     private final Scanner scanner;
     private boolean run = true;
 
     @Autowired
-    public CommandLine(DriverService driverService){
+    public CommandLine(DriverService driverService, TeamService teamService, DataInitializer dataInitializer){
         this.scanner = new Scanner(System.in);
 
         this.driverService = driverService;
-        //this.teamService = teamService;
+        this.teamService = teamService;
+        this.dataInitializer = dataInitializer;
     }
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Spring initializing complete. Initializaing data....");
+        dataInitializer.initData();
 
         while(run){
             System.out.println("Welcome in F1 Driver & Teams Manager!");
@@ -37,6 +44,7 @@ public class CommandLine implements CommandLineRunner {
             int opt = scanner.nextInt();
             switch(opt){
                 case 1:
+                    showTeams();
                     break;
                 case 2:
                     showDrivers();
@@ -55,6 +63,14 @@ public class CommandLine implements CommandLineRunner {
         }
     }
 
+    public void showTeams(){
+        List<Team> teams = teamService.showTeams();
+        if(teams == null){
+            System.out.println("No teams available!");
+        }
+
+        teams.forEach(System.out::println);
+    }
     public void showDrivers(){
         List<Driver> drivers = driverService.getAllDrivers();
         if(drivers == null){
