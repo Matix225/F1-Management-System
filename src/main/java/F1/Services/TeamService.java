@@ -15,6 +15,9 @@ public class TeamService {
         this.teamRepository = teamRepository;
     }
 
+    public Team getTeamByName(String teamName){
+        return teamRepository.getTeamByName(teamName);
+    }
     public List<Team> getAllTeams(){
         return teamRepository.findAll();
     }

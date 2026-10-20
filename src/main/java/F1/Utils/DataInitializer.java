@@ -34,7 +34,7 @@ public class DataInitializer {
         redBull.setFirstEntry(2005);
         redBull.setCountry("Austria");
         redBull.setHeadquarters("Milton Keynes");
-        redBull.setTeamLeader("Laurent Mekies"); // Szef Red Bull Racing w 2026
+        redBull.setTeamLeader("Laurent Mekies");
         redBull.setTotalRaces(434);
         redBull.setRacesWon(131);
         redBull.setPodiums(242);

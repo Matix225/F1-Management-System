@@ -100,7 +100,7 @@ public class Team implements Comparable<Team>, Serializable {
                 + " First entry: " + firstEntry + "\n"
                 + " Country: " + country + "\n"
                 + " Headquarter: " + headquarters + "\n"
-                + " F1.Team leader: " + teamLeader + "\n"
+                + " Team leader: " + teamLeader + "\n"
                 + " Total races: " + totalRaces + "\n"
                 + " Races won: " + racesWon + "\n"
                 + " Podiums: " + podiums + "\n"

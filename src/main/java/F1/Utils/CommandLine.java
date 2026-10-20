@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 @Component
 public class CommandLine implements CommandLineRunner {
@@ -41,7 +42,7 @@ public class CommandLine implements CommandLineRunner {
             System.out.println("4. Delete driver");
             System.out.println("5. Exit");
 
-            int opt = scanner.nextInt();
+            int opt = Integer.parseInt(scanner.nextLine());
             switch(opt){
                 case 1:
                     showTeams();
@@ -90,12 +91,21 @@ public class CommandLine implements CommandLineRunner {
         String lastName = scanner.nextLine();
 
         System.out.println("Enter driver race number: ");
-        int raceNumber = scanner.nextInt();
+        int raceNumber = Integer.parseInt(scanner.nextLine());
+
+        System.out.println("Enter team name: ");
+        Team team = teamService.getTeamByName(scanner.nextLine());
+        if(team == null){
+            System.out.println("Team doesn't exists!");
+            return;
+        }
 
         Driver driver = new Driver();
+        driver.setUuid(UUID.randomUUID());
         driver.setFirstName(name);
         driver.setLastName(lastName);
         driver.setRaceNumber(raceNumber);
+        driver.setCurrentTeam(team);
 
         driverService.addDriver(driver);
     }
