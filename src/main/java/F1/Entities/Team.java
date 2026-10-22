@@ -17,7 +17,7 @@ public class Team implements Comparable<Team>, Serializable {
     @Id
     UUID uuid;
 
-    @Column(name = "", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "firstEntry")
@@ -26,9 +26,10 @@ public class Team implements Comparable<Team>, Serializable {
     @Column(name = "country")
     private String country;
 
+    @Column(name = "headquarters")
     private String headquarters;
 
-    @Column(name = "", nullable = false, unique = true)
+    @Column(name = "teamLeader", nullable = false, unique = true)
     private String teamLeader;
 
     @Column(name = "totalRaces")
@@ -43,7 +44,7 @@ public class Team implements Comparable<Team>, Serializable {
     @Column(name = "championshipsWon")
     private int championshipsWon;
 
-    @OneToMany(mappedBy = "driver")
+    @OneToMany(mappedBy = "currentTeam")
     private List<Driver> drivers;
 
     //methods
@@ -99,7 +100,7 @@ public class Team implements Comparable<Team>, Serializable {
                 + " First entry: " + firstEntry + "\n"
                 + " Country: " + country + "\n"
                 + " Headquarter: " + headquarters + "\n"
-                + " F1.Team leader: " + teamLeader + "\n"
+                + " Team leader: " + teamLeader + "\n"
                 + " Total races: " + totalRaces + "\n"
                 + " Races won: " + racesWon + "\n"
                 + " Podiums: " + podiums + "\n"

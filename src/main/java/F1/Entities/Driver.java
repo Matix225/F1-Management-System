@@ -25,7 +25,7 @@ public class Driver implements Comparable<Driver>, Serializable {
     @Column(name = "age")
     private int age;
 
-    @Column(name = "raceNumber")
+    @Column(name = "raceNumber", nullable = false, unique = true)
     private int raceNumber;
 
     @Column(name = "racesEntered")
@@ -44,7 +44,7 @@ public class Driver implements Comparable<Driver>, Serializable {
     private int titlesWon;
 
     @ManyToOne
-    @JoinColumn(name = "team")
+    @JoinColumn(name = "team_id")
     private Team currentTeam;
 
     public boolean equals(Object other){
@@ -94,12 +94,12 @@ public class Driver implements Comparable<Driver>, Serializable {
                 + " Full name: " + firstName + " " + lastName + "\n"
                 + " Age: " + age + "\n"
                 + " Race number: " + raceNumber + "\n"
-                + " F1.Team: " + currentTeam.getName() + "\n"
+                + " Team: " + currentTeam.getName() + "\n"
                 + " Races entered: " + racesEntered + "\n"
                 + " Races won: " + racesWon + "\n"
                 + " Podiums: " + podiums + "\n"
                 + " Pole positions: " + polePositions + "\n"
-                + " F1.Driver championship title: " + titlesWon + "\n"
+                + " Driver championship title: " + titlesWon + "\n"
                 + "}\n";
     }
 }

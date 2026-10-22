@@ -1,0 +1,118 @@
+package F1.Utils;
+
+import F1.Entities.Driver;
+import F1.Entities.Team;
+import F1.Services.DriverService;
+import F1.Services.TeamService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Scanner;
+import java.util.UUID;
+
+@Component
+public class CommandLine implements CommandLineRunner {
+    private final DriverService driverService;
+    private final TeamService teamService;
+    private final DataInitializer dataInitializer;
+
+    private final Scanner scanner;
+    private boolean run = true;
+
+    @Autowired
+    public CommandLine(DriverService driverService, TeamService teamService, DataInitializer dataInitializer){
+        this.scanner = new Scanner(System.in);
+
+        this.driverService = driverService;
+        this.teamService = teamService;
+        this.dataInitializer = dataInitializer;
+    }
+    @Override
+    public void run(String... args) throws Exception {
+        System.out.println("Spring initializing complete. Initializaing data....");
+        dataInitializer.initData();
+
+        while(run){
+            System.out.println("Welcome in F1 Driver & Teams Manager!");
+            System.out.println("1. Show teams");
+            System.out.println("2. Show drivers");
+            System.out.println("3. Add driver");
+            System.out.println("4. Delete driver");
+            System.out.println("5. Exit");
+
+            int opt = Integer.parseInt(scanner.nextLine());
+            switch(opt){
+                case 1:
+                    showTeams();
+                    break;
+                case 2:
+                    showDrivers();
+                    break;
+                case 3:
+                    addDriver();
+                    break;
+                case 4:
+                    deleteDriver();
+                    break;
+                case 5:
+                    run = false;
+                    break;
+                default:
+            }
+        }
+    }
+
+    public void showTeams(){
+        List<Team> teams = teamService.showTeams();
+        if(teams == null){
+            System.out.println("No teams available!");
+        }
+
+        teams.forEach(System.out::println);
+    }
+    public void showDrivers(){
+        List<Driver> drivers = driverService.getAllDrivers();
+        if(drivers == null){
+            System.out.println("No drivers available!");
+        }
+
+        drivers.forEach(System.out::println);
+    }
+    public void addDriver(){
+        //collect input about drivers then send it to repo
+        //for saving and verifying new driver data
+
+        System.out.println("Enter driver name: ");
+        String name = scanner.nextLine();
+
+        System.out.println("Enter driver last name: ");
+        String lastName = scanner.nextLine();
+
+        System.out.println("Enter driver race number: ");
+        int raceNumber = Integer.parseInt(scanner.nextLine());
+
+        System.out.println("Enter team name: ");
+        Team team = teamService.getTeamByName(scanner.nextLine());
+        if(team == null){
+            System.out.println("Team doesn't exists!");
+            return;
+        }
+
+        Driver driver = new Driver();
+        driver.setUuid(UUID.randomUUID());
+        driver.setFirstName(name);
+        driver.setLastName(lastName);
+        driver.setRaceNumber(raceNumber);
+        driver.setCurrentTeam(team);
+
+        driverService.addDriver(driver);
+    }
+    public void deleteDriver(){
+        System.out.println("Enter driver race number: ");
+        int raceNumber = scanner.nextInt();
+
+        driverService.deleteDriver(raceNumber);
+    }
+}
