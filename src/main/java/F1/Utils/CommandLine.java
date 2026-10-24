@@ -17,9 +17,17 @@ public class CommandLine implements CommandLineRunner {
     private final DriverService driverService;
     private final TeamService teamService;
     private final DataInitializer dataInitializer;
-
     private final Scanner scanner;
-    private boolean run = true;
+    private final String[] validationMessage = {
+            "Everything is fine. Adding driver...",
+            "Name can't be empty!",
+            "Last name can't be empty!",
+            "Driver must be assign to an existing team!",
+            "Race number already taken!",
+            "Race number should be in range 1 to 99!",
+            "Name should only consist of letters!",
+            "Last name should only consist of letters!",
+    };
 
     @Autowired
     public CommandLine(DriverService driverService, TeamService teamService, DataInitializer dataInitializer){
@@ -34,6 +42,9 @@ public class CommandLine implements CommandLineRunner {
         System.out.println("Spring initializing complete. Initializaing data....");
         dataInitializer.initData();
 
+        System.out.println("Initialization complete!");
+        System.out.println();
+        boolean run = true;
         while(run){
             System.out.println("Welcome in F1 Driver & Teams Manager!");
             System.out.println("1. Show teams");
@@ -80,32 +91,70 @@ public class CommandLine implements CommandLineRunner {
 
         drivers.forEach(System.out::println);
     }
-    public void addDriver(){
-        //collect input about drivers then send it to repo
-        //for saving and verifying new driver data
+    public void addDriver(){//function that allows user to add new driver to the database
+        Driver driver = new Driver();
 
         System.out.println("Enter driver name: ");
-        String name = scanner.nextLine();
+        driver.setFirstName(scanner.nextLine());
 
         System.out.println("Enter driver last name: ");
-        String lastName = scanner.nextLine();
+        driver.setLastName(scanner.nextLine());
 
         System.out.println("Enter driver race number: ");
-        int raceNumber = Integer.parseInt(scanner.nextLine());
+        driver.setRaceNumber(Integer.parseInt(scanner.nextLine()));
 
         System.out.println("Enter team name: ");
-        Team team = teamService.getTeamByName(scanner.nextLine());
-        if(team == null){
-            System.out.println("Team doesn't exists!");
-            return;
-        }
+        String teamName = scanner.nextLine();
+        driver.setCurrentTeam(teamService.getTeamByName(teamName));
 
-        Driver driver = new Driver();
-        driver.setUuid(UUID.randomUUID());
-        driver.setFirstName(name);
-        driver.setLastName(lastName);
-        driver.setRaceNumber(raceNumber);
-        driver.setCurrentTeam(team);
+        boolean checking = true;
+        while(checking){
+            //if any error appears appropriate error message will be displayed
+            //and user wil be asked to enter field value again
+            int errCode = driverService.verifyDriverInput(driver);
+            switch(errCode){
+                case 0:
+                    System.out.println(validationMessage[0]);
+                    checking = false;
+                    break;
+                case 1:
+                    System.out.println(validationMessage[1]);
+                    System.out.println("Enter driver name: ");
+                    driver.setFirstName(scanner.nextLine());
+                    break;
+                case 2:
+                    System.out.println(validationMessage[2]);
+                    System.out.println("Enter driver last name: ");
+                    driver.setLastName(scanner.nextLine());
+                    break;
+                case 3:
+                    System.out.println(validationMessage[3]);
+                    System.out.println("Enter team name: ");
+                    teamName = scanner.nextLine();
+                    driver.setCurrentTeam(teamService.getTeamByName(teamName));
+                    break;
+                case 4:
+                    System.out.println(validationMessage[4]);
+                    System.out.println("Enter driver race number: ");
+                    driver.setRaceNumber(Integer.parseInt(scanner.nextLine()));
+                    break;
+                case 5:
+                    System.out.println(validationMessage[5]);
+                    System.out.println("Enter driver race number: ");
+                    driver.setRaceNumber(Integer.parseInt(scanner.nextLine()));
+                    break;
+                case 6:
+                    System.out.println(validationMessage[6]);
+                    System.out.println("Enter driver name: ");
+                    driver.setFirstName(scanner.nextLine());
+                    break;
+                case 7:
+                    System.out.println(validationMessage[7]);
+                    System.out.println("Enter driver last name: ");
+                    driver.setLastName(scanner.nextLine());
+                    break;
+            }
+        }
 
         driverService.addDriver(driver);
     }
