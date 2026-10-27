@@ -1,0 +1,20 @@
+###
+GET http://localhost:8080/api/teams
+
+###
+@id = 31b667d6-c80f-448f-847d-0206fe527851
+GET http://localhost:8080/api/teams/{{id}}
+
+###
+DELETE http://localhost:8080/api/teams/{{id}}
+
+###
+POST http://localhost:8080/api/teams/add
+Content-Type: application/json
+
+{
+  "name": "Scuderia Ferrari",
+  "teamLeader": "Frederic Vasseur",
+  "firstEntry": 1950,
+  "championshipsWon": 16
+}

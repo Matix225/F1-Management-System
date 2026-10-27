@@ -11,4 +11,5 @@ import java.util.UUID;
 public interface TeamRepository extends JpaRepository<Team, UUID>{
     public List<Team> findAll();
     public Team getTeamByName(String name);
+    public Team getByUuid(UUID id);
 }
