@@ -14,13 +14,12 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/teams")
 public class TeamController {
-
     private final TeamService teamService;
     public TeamController(TeamService teamService) {
         this.teamService = teamService;
     }
 
-    @PostMapping("/add")
+    @PostMapping("")
     public ResponseEntity<TeamReadDTO> addTeam(@RequestBody TeamDTO teamDTO){
         //data validation
 
@@ -51,7 +50,7 @@ public class TeamController {
         //check if team with given id exist
         Team team = teamService.getTeamByUuid(id);
         if(team == null){//entity with given id doesn't exist
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         //transfer DTO object into entity object
         team.setName(teamDTO.getName());

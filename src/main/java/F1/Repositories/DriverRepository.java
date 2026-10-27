@@ -13,6 +13,7 @@ import java.util.UUID;
 public interface DriverRepository extends JpaRepository<Driver, UUID> {
     public List<Driver> findAll();
     public Driver findDriverByRaceNumber(int raceNumber);
+    public Driver findDriverByUuid(UUID uuid);
 
     @Query("SELECT d FROM Driver d WHERE d.currentTeam.name = :teamName")
     public List<Driver> findDriverByCurrentTeam_Name(@Param("teamName") String teamName);
