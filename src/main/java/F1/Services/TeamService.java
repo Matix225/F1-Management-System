@@ -41,4 +41,7 @@ public class TeamService {
         teamRepository.delete(team);
         return 0;
     }
+    public Team updateTeam(Team team){
+        return teamRepository.save(team);
+    }
 }

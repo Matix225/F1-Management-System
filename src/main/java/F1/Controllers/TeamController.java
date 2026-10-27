@@ -28,7 +28,8 @@ public class TeamController {
         Team team = new Team();
         team.setName(teamDTO.getName());
         team.setTeamLeader(teamDTO.getTeamLeader());
-        team.setTotalRaces(teamDTO.getRacesEntered());
+        team.setFirstEntry(teamDTO.getFirstEntry());
+        team.setTotalRaces(teamDTO.getTotalRaces());
         team.setRacesWon(teamDTO.getRacesWon());
         team.setChampionshipsWon(teamDTO.getChampionshipsWon());
 
@@ -43,7 +44,34 @@ public class TeamController {
 
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<TeamReadDTO> updateTeam(@RequestBody TeamDTO teamDTO, @PathVariable UUID id){
+        //data validation
 
+        //check if team with given id exist
+        Team team = teamService.getTeamByUuid(id);
+        if(team == null){//entity with given id doesn't exist
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        //transfer DTO object into entity object
+        team.setName(teamDTO.getName());
+        team.setTeamLeader(teamDTO.getTeamLeader());
+        team.setFirstEntry(teamDTO.getFirstEntry());
+        team.setTotalRaces(teamDTO.getTotalRaces());
+        team.setRacesWon(teamDTO.getRacesWon());
+        team.setChampionshipsWon(teamDTO.getChampionshipsWon());
+
+        Team savedTeam = teamService.updateTeam(team);
+        TeamReadDTO responseDTO = new TeamReadDTO(
+                savedTeam.getUuid(),
+                savedTeam.getName(),
+                savedTeam.getTeamLeader(),
+                savedTeam.getFirstEntry(),
+                savedTeam.getChampionshipsWon()
+        );
+
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
     @GetMapping("")
     public ResponseEntity<List<TeamReadDTO>> getAllTeams(){
         List<Team> teams = teamService.getAllTeams();
