@@ -9,7 +9,7 @@ GET http://localhost:8080/api/teams/{{id}}
 DELETE http://localhost:8080/api/teams/{{id}}
 
 ###
-POST http://localhost:8080/api/teams/add
+POST http://localhost:8080/api/teams
 Content-Type: application/json
 
 {
@@ -18,7 +18,6 @@ Content-Type: application/json
   "firstEntry": 1950,
   "championshipsWon": 16
 }
-
 ###
 PUT http://localhost:8080/api/teams/{{id}}
 Content-Type: application/json
@@ -28,4 +27,30 @@ Content-Type: application/json
   "teamLeader": "wgwgw",
   "totalRaces": 2327,
   "championshipsWon": 12
+}
+
+
+
+
+
+###
+GET http://localhost:8080/api/drivers
+###
+@teamID = 40f51282-5c9b-44ef-be31-499afd597b81
+GET http://localhost:8080/api/teams/{{teamID}}/drivers
+###
+@id2 = 764c4759-c3b9-452f-aea1-fec38a4097e2
+DELETE http://localhost:8080/api/drivers/{{id2}}
+
+###
+POST http://localhost:8080/api/teams/{{teamID}}/drivers
+Content-Type: application/json
+
+{
+  "firstName": "fwwg",
+  "lastName": "bebhe",
+  "age": 2,
+  "raceNumber": 34,
+  "racesEntered": 453,
+  "racesWon": 123
 }

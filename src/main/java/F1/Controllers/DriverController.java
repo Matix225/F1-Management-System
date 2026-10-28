@@ -1,5 +1,6 @@
 package F1.Controllers;
 
+import F1.DTO.Drivers.DriverDTO;
 import F1.DTO.Drivers.DriverReadDTO;
 import F1.Entities.Driver;
 import F1.Entities.Team;
@@ -7,10 +8,7 @@ import F1.Services.DriverService;
 import F1.Services.TeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -72,5 +70,48 @@ public class DriverController{
                 ))
                 .toList();
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/teams/{teamId}/drivers")
+    public ResponseEntity<DriverReadDTO> addDriver(@RequestBody DriverDTO driverDTO, @PathVariable UUID teamId){
+        //data validation
+
+        //check if team exists
+        Team team = teamService.getTeamByUuid(teamId);
+        if(team == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        //change DTO object into entity object
+        Driver driver = new Driver();
+        driver.setFirstName(driverDTO.getFirstName());
+        driver.setLastName(driverDTO.getLastName());
+        driver.setAge(driverDTO.getAge());
+        driver.setRaceNumber(driverDTO.getRaceNumber());
+        driver.setRacesEntered(driverDTO.getRacesEntered());
+        driver.setRacesWon(driverDTO.getRacesWon());
+        driver.setTitlesWon(driverDTO.getTitlesWon());
+        driver.setCurrentTeam(team);
+
+        Driver savedDriver = driverService.addDriver(driver);
+        //change saved driver into his DTO and send it back to the user
+        DriverReadDTO responseDTO = new DriverReadDTO(
+                savedDriver.getUuid(),
+                savedDriver.getFirstName(),
+                savedDriver.getLastName(),
+                savedDriver.getRaceNumber(),
+                savedDriver.getCurrentTeam().getName() //driver will always have a team here, so NullPointerException is not possible
+        );
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/drivers/{id}")
+    public ResponseEntity<String> deleteDriver(@PathVariable UUID id){
+        if(driverService.getDriverByUuid(id) == null){
+            return new ResponseEntity<>("Driver doesn't exists", HttpStatus.NOT_FOUND);
+        }
+
+        driverService.deleteDriverByUUID(id);
+        return new ResponseEntity<>("Driver deleted!", HttpStatus.OK);
     }
 }

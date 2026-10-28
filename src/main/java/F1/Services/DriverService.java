@@ -25,10 +25,9 @@ public class DriverService {
         return driverRepository.findDriverByUuid(id);
     }
 
-    public void addDriver(Driver driver){
+    public Driver addDriver(Driver driver){
         driver.setUuid(UUID.randomUUID());
-        driverRepository.save(driver);
-        System.out.println("Driver added!");
+        return driverRepository.save(driver);
     }
     public void deleteDriver(int raceNumber){
         Driver driver = driverRepository.findDriverByRaceNumber(raceNumber);
@@ -40,7 +39,16 @@ public class DriverService {
         driverRepository.delete(driver);
         System.out.println("Driver deleted successfully!");
     }
+    public void deleteDriverByUUID(UUID id){
+        Driver driver = driverRepository.findDriverByUuid(id);
+        if(driver == null){
+            System.out.println("Race number is not assign to any driver!");
+            return;
+        }
 
+        driverRepository.delete(driver);
+        System.out.println("Driver deleted successfully!");
+    }
 
 
     public int verifyDriverInput(Driver driver){
