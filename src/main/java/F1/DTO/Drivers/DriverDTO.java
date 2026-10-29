@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public final class DriverDTO {
+    //dto for creating and updating data
     private final String firstName;
     private final String lastName;
     private final int age;

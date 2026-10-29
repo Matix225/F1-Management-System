@@ -29,6 +29,10 @@ public class DriverService {
         driver.setUuid(UUID.randomUUID());
         return driverRepository.save(driver);
     }
+    public Driver updateDriver(Driver driver){
+        return driverRepository.save(driver);
+    }
+
     public void deleteDriver(int raceNumber){
         Driver driver = driverRepository.findDriverByRaceNumber(raceNumber);
         if(driver == null){

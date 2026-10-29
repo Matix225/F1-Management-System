@@ -104,6 +104,42 @@ public class DriverController{
         );
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
+    @PutMapping("/teams/{teamId}/drivers/{driverId}")
+    public ResponseEntity<DriverReadDTO> updateDriver(@RequestBody DriverDTO driverDTO, @PathVariable UUID teamId, @PathVariable UUID driverId){
+        //validate data
+
+        //check if chosen team exists.
+        //if user didn't change driver team, it remains the same
+        Team team = teamService.getTeamByUuid(teamId);
+        if(team == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        //check if driver exists in database
+        Driver driver = driverService.getDriverByUuid(driverId);
+        if(driver == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        driver.setFirstName(driverDTO.getFirstName());
+        driver.setLastName(driverDTO.getLastName());
+        driver.setAge(driverDTO.getAge());
+        driver.setRaceNumber(driverDTO.getRaceNumber());
+        driver.setRacesEntered(driverDTO.getRacesEntered());
+        driver.setRacesWon(driverDTO.getRacesWon());
+        driver.setTitlesWon(driverDTO.getTitlesWon());
+        driver.setCurrentTeam(team);
+
+        Driver savedDriver = driverService.updateDriver(driver);
+        DriverReadDTO responseDTO = new DriverReadDTO(
+                savedDriver.getUuid(),
+                savedDriver.getFirstName(),
+                savedDriver.getLastName(),
+                savedDriver.getRaceNumber(),
+                savedDriver.getCurrentTeam().getName()
+        );
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
 
     @DeleteMapping("/drivers/{id}")
     public ResponseEntity<String> deleteDriver(@PathVariable UUID id){

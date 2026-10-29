@@ -2,7 +2,7 @@
 GET http://localhost:8080/api/teams
 
 ###
-@id = c418e892-69d0-4fdb-a58d-c5e57c6de506
+@id = 328fddef-bd09-4f60-bf6a-f6227eebb724
 GET http://localhost:8080/api/teams/{{id}}
 
 ###
@@ -16,6 +16,8 @@ Content-Type: application/json
   "name": "Scuderia Ferrari HP",
   "teamLeader": "Frederic Vasseur",
   "firstEntry": 1950,
+  "totalRaces": 123,
+  "racesWon": 110,
   "championshipsWon": 16
 }
 ###
@@ -25,7 +27,9 @@ Content-Type: application/json
 {
   "name": "Scuderia Ferrari",
   "teamLeader": "wgwgw",
+  "firstEntry": 1234,
   "totalRaces": 2327,
+  "racesWon": 123,
   "championshipsWon": 12
 }
 
@@ -36,12 +40,11 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/api/drivers
 ###
-@teamID = 40f51282-5c9b-44ef-be31-499afd597b81
+@teamID = 328fddef-bd09-4f60-bf6a-f6227eebb724
 GET http://localhost:8080/api/teams/{{teamID}}/drivers
 ###
-@id2 = 764c4759-c3b9-452f-aea1-fec38a4097e2
+@id2 = 48847642-e0fd-4f7e-aeb3-fbbb1d79c66c
 DELETE http://localhost:8080/api/drivers/{{id2}}
-
 ###
 POST http://localhost:8080/api/teams/{{teamID}}/drivers
 Content-Type: application/json
@@ -52,5 +55,21 @@ Content-Type: application/json
   "age": 2,
   "raceNumber": 34,
   "racesEntered": 453,
-  "racesWon": 123
+  "racesWon": 123,
+  "titlesWon": 5
+}
+###
+@teamId2 = 328fddef-bd09-4f60-bf6a-f6227eebb724
+@driverId = 8277316d-0830-48d2-b661-15a53554a2d7
+PUT http://localhost:8080/api/teams/{{teamId2}}/drivers/{{driverId}}
+Content-Type: application/json
+
+{
+  "firstName": "Max",
+  "lastName": "Verstappen",
+  "age": 20,
+  "raceNumber": 1,
+  "racesEntered": 12,
+  "racesWon": 40,
+  "titlesWon": 10
 }
