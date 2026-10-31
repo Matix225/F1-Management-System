@@ -3,6 +3,8 @@ package F1.Entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
 
 import java.io.Serializable;
 import java.util.List;
@@ -44,7 +46,7 @@ public class Team implements Comparable<Team>, Serializable {
     @Column(name = "championshipsWon")
     private int championshipsWon;
 
-    @OneToMany(mappedBy = "currentTeam")
+    @OneToMany(mappedBy = "currentTeam", cascade = CascadeType.REMOVE, orphanRemoval = false)
     private List<Driver> drivers;
 
     //methods

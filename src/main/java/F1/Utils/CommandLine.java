@@ -76,7 +76,7 @@ public class CommandLine implements CommandLineRunner {
     }
 
     public void showTeams(){
-        List<Team> teams = teamService.showTeams();
+        List<Team> teams = teamService.getAllTeams();
         if(teams == null){
             System.out.println("No teams available!");
         }

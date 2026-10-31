@@ -21,9 +21,40 @@ public class DriverService {
     public List<Driver> getAllDrivers(){
         return driverRepository.findAll();
     }
-    public Driver getDriverByRaceNumber(int raceNumber){
-        return driverRepository.findDriverByRaceNumber(raceNumber);
+    public Driver getDriverByUuid(UUID id){
+        return driverRepository.findDriverByUuid(id);
     }
+
+    public Driver addDriver(Driver driver){
+        driver.setUuid(UUID.randomUUID());
+        return driverRepository.save(driver);
+    }
+    public Driver updateDriver(Driver driver){
+        return driverRepository.save(driver);
+    }
+
+    public void deleteDriver(int raceNumber){
+        Driver driver = driverRepository.findDriverByRaceNumber(raceNumber);
+        if(driver == null){
+            System.out.println("Race number is not assign to any driver!");
+            return;
+        }
+
+        driverRepository.delete(driver);
+        System.out.println("Driver deleted successfully!");
+    }
+    public void deleteDriverByUUID(UUID id){
+        Driver driver = driverRepository.findDriverByUuid(id);
+        if(driver == null){
+            System.out.println("Race number is not assign to any driver!");
+            return;
+        }
+
+        driverRepository.delete(driver);
+        System.out.println("Driver deleted successfully!");
+    }
+
+
     public int verifyDriverInput(Driver driver){
         //function that verify if created driver is valid
         //return error code if it's invalid or 0 if everything is fine and
@@ -53,27 +84,5 @@ public class DriverService {
         }
 
         return 0;
-    }
-    public void addDriver(Driver driver){
-        driver.setUuid(UUID.randomUUID());
-        driverRepository.save(driver);
-        System.out.println("Driver added!");
-    }
-
-
-
-
-
-
-
-    public void deleteDriver(int raceNumber){
-        Driver driver = driverRepository.findDriverByRaceNumber(raceNumber);
-        if(driver == null){
-            System.out.println("Race number is not assign to any driver!");
-            return;
-        }
-
-        driverRepository.delete(driver);
-        System.out.println("Driver deleted successfully!");
     }
 }
