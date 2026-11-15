@@ -2,7 +2,7 @@
 GET http://localhost:8080/api/teams
 
 ###
-@id = 328fddef-bd09-4f60-bf6a-f6227eebb724
+@id = 3d96c518-43c8-494a-be7f-48eb702c37e5
 GET http://localhost:8080/api/teams/{{id}}
 
 ###
@@ -40,10 +40,10 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/api/drivers
 ###
-@teamID = 328fddef-bd09-4f60-bf6a-f6227eebb724
+@teamID = 7111422e-9d53-407e-9385-3f7854500e5f
 GET http://localhost:8080/api/teams/{{teamID}}/drivers
 ###
-@id2 = 48847642-e0fd-4f7e-aeb3-fbbb1d79c66c
+@id2 = 344a7a8b-be8e-4853-804a-abb62c5c32d4
 DELETE http://localhost:8080/api/drivers/{{id2}}
 ###
 POST http://localhost:8080/api/teams/{{teamID}}/drivers
@@ -52,15 +52,15 @@ Content-Type: application/json
 {
   "firstName": "fwwg",
   "lastName": "bebhe",
-  "age": 2,
+  "age": 17,
   "raceNumber": 34,
   "racesEntered": 453,
   "racesWon": 123,
   "titlesWon": 5
 }
 ###
-@teamId2 = 328fddef-bd09-4f60-bf6a-f6227eebb724
-@driverId = 8277316d-0830-48d2-b661-15a53554a2d7
+@teamId2 = 344a7a8b-be8e-4853-804a-abb62c5c32d4
+@driverId = 2a417add-a415-4759-979c-853079acf232
 PUT http://localhost:8080/api/teams/{{teamId2}}/drivers/{{driverId}}
 Content-Type: application/json
 
