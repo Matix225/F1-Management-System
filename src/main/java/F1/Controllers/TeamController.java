@@ -4,6 +4,7 @@ import F1.DTO.Teams.TeamDTO;
 import F1.DTO.Teams.TeamReadDTO;
 import F1.Entities.Team;
 import F1.Services.TeamService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class TeamController {
     }
 
     @PostMapping("")
-    public ResponseEntity<TeamReadDTO> addTeam(@RequestBody TeamDTO teamDTO){
+    public ResponseEntity<TeamReadDTO> addTeam(@RequestBody @Valid TeamDTO teamDTO){
         //data validation
 
         //transform DTO into entity object
@@ -44,7 +45,7 @@ public class TeamController {
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<TeamReadDTO> updateTeam(@RequestBody TeamDTO teamDTO, @PathVariable UUID id){
+    public ResponseEntity<TeamReadDTO> updateTeam(@RequestBody @Valid TeamDTO teamDTO, @PathVariable UUID id){
         //data validation
 
         //check if team with given id exist

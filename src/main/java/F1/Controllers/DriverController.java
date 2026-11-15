@@ -6,6 +6,7 @@ import F1.Entities.Driver;
 import F1.Entities.Team;
 import F1.Services.DriverService;
 import F1.Services.TeamService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -73,9 +74,7 @@ public class DriverController{
     }
 
     @PostMapping("/teams/{teamId}/drivers")
-    public ResponseEntity<DriverReadDTO> addDriver(@RequestBody DriverDTO driverDTO, @PathVariable UUID teamId){
-        //data validation
-
+    public ResponseEntity<DriverReadDTO> addDriver(@RequestBody @Valid DriverDTO driverDTO, @PathVariable UUID teamId){
         //check if team exists
         Team team = teamService.getTeamByUuid(teamId);
         if(team == null){
@@ -105,9 +104,7 @@ public class DriverController{
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
     @PutMapping("/teams/{teamId}/drivers/{driverId}")
-    public ResponseEntity<DriverReadDTO> updateDriver(@RequestBody DriverDTO driverDTO, @PathVariable UUID teamId, @PathVariable UUID driverId){
-        //validate data
-
+    public ResponseEntity<DriverReadDTO> updateDriver(@RequestBody @Valid DriverDTO driverDTO, @PathVariable UUID teamId, @PathVariable UUID driverId){
         //check if chosen team exists.
         //if user didn't change driver team, it remains the same
         Team team = teamService.getTeamByUuid(teamId);
