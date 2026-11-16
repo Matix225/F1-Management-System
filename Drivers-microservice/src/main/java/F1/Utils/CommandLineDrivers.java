@@ -10,13 +10,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 @Component
-public class CommandLine implements CommandLineRunner {
+public class CommandLineDrivers implements CommandLineRunner {
     private final DriverService driverService;
     private final TeamService teamService;
-    private final DataInitializer dataInitializer;
+    private final DataInitializerDrivers dataInitializer;
     private final Scanner scanner;
     private final String[] validationMessage = {
             "Everything is fine. Adding driver...",
@@ -30,7 +29,7 @@ public class CommandLine implements CommandLineRunner {
     };
 
     @Autowired
-    public CommandLine(DriverService driverService, TeamService teamService, DataInitializer dataInitializer){
+    public CommandLineDrivers(DriverService driverService, TeamService teamService, DataInitializerDrivers dataInitializer){
         this.scanner = new Scanner(System.in);
 
         this.driverService = driverService;

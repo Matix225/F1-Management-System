@@ -9,16 +9,15 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 import java.util.UUID;
 
 @Component
-public class DataInitializer {
+public class DataInitializerDrivers {
     private final DriverService driverService;
     private final TeamService teamService;
 
     @Autowired
-    public DataInitializer(DriverService driverService, TeamService teamService){
+    public DataInitializerDrivers(DriverService driverService, TeamService teamService){
         this.driverService = driverService;
         this.teamService = teamService;
     }
