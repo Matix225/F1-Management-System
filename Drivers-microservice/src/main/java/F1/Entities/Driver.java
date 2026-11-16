@@ -43,9 +43,9 @@ public class Driver implements Comparable<Driver>, Serializable {
     @Column(name = "titlesWon")
     private int titlesWon;
 
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team currentTeam;
+    //team lives in Teams-microservice, here only its id is kept
+    @Column(name = "team_id")
+    private UUID teamId;
 
     public boolean equals(Object other){
         if(this == other){
@@ -94,7 +94,7 @@ public class Driver implements Comparable<Driver>, Serializable {
                 + " Full name: " + firstName + " " + lastName + "\n"
                 + " Age: " + age + "\n"
                 + " Race number: " + raceNumber + "\n"
-                + " Team: " + currentTeam.getName() + "\n"
+                + " Team id: " + teamId + "\n"
                 + " Races entered: " + racesEntered + "\n"
                 + " Races won: " + racesWon + "\n"
                 + " Podiums: " + podiums + "\n"

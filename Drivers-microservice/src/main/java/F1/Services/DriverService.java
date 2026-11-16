@@ -2,7 +2,6 @@ package F1.Services;
 
 import F1.Entities.Driver;
 import F1.Repositories.DriverRepository;
-import F1.Repositories.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +23,9 @@ public class DriverService {
     public Driver getDriverByUuid(UUID id){
         return driverRepository.findDriverByUuid(id);
     }
+    public List<Driver> getDriversByTeamId(UUID teamId){
+        return driverRepository.findDriversByTeamId(teamId);
+    }
 
     public Driver addDriver(Driver driver){
         driver.setUuid(UUID.randomUUID());
@@ -42,6 +44,9 @@ public class DriverService {
 
         driverRepository.delete(driver);
         System.out.println("Driver deleted successfully!");
+    }
+    public void deleteDriversByTeamId(UUID teamId){
+        driverRepository.deleteAll(driverRepository.findDriversByTeamId(teamId));
     }
     public void deleteDriverByUUID(UUID id){
         Driver driver = driverRepository.findDriverByUuid(id);
@@ -67,7 +72,7 @@ public class DriverService {
         if(driver.getLastName().isEmpty()){
             return 2;
         }
-        if(driver.getCurrentTeam() == null){
+        if(driver.getTeamId() == null){
             return 3;
         }
         if(driverRepository.findDriverByRaceNumber(driver.getRaceNumber()) != null){

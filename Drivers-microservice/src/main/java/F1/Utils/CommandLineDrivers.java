@@ -1,20 +1,21 @@
 package F1.Utils;
 
 import F1.Entities.Driver;
-import F1.Entities.Team;
+import F1.DTO.Teams.TeamReadDTO;
 import F1.Services.DriverService;
-import F1.Services.TeamService;
+import F1.Clients.TeamsClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 @Component
 public class CommandLineDrivers implements CommandLineRunner {
     private final DriverService driverService;
-    private final TeamService teamService;
+    private final TeamsClient teamsClient;
     private final DataInitializerDrivers dataInitializer;
     private final Scanner scanner;
     private final String[] validationMessage = {
@@ -29,11 +30,11 @@ public class CommandLineDrivers implements CommandLineRunner {
     };
 
     @Autowired
-    public CommandLineDrivers(DriverService driverService, TeamService teamService, DataInitializerDrivers dataInitializer){
+    public CommandLineDrivers(DriverService driverService, TeamsClient teamsClient, DataInitializerDrivers dataInitializer){
         this.scanner = new Scanner(System.in);
 
         this.driverService = driverService;
-        this.teamService = teamService;
+        this.teamsClient = teamsClient;
         this.dataInitializer = dataInitializer;
     }
     @Override
@@ -75,7 +76,7 @@ public class CommandLineDrivers implements CommandLineRunner {
     }
 
     public void showTeams(){
-        List<Team> teams = teamService.getAllTeams();
+        List<TeamReadDTO> teams = teamsClient.getAllTeams();
         if(teams == null){
             System.out.println("No teams available!");
         }
@@ -104,7 +105,7 @@ public class CommandLineDrivers implements CommandLineRunner {
 
         System.out.println("Enter team name: ");
         String teamName = scanner.nextLine();
-        driver.setCurrentTeam(teamService.getTeamByName(teamName));
+        driver.setTeamId(findTeamId(teamName));
 
         boolean checking = true;
         while(checking){
@@ -130,7 +131,7 @@ public class CommandLineDrivers implements CommandLineRunner {
                     System.out.println(validationMessage[3]);
                     System.out.println("Enter team name: ");
                     teamName = scanner.nextLine();
-                    driver.setCurrentTeam(teamService.getTeamByName(teamName));
+                    driver.setTeamId(findTeamId(teamName));
                     break;
                 case 4:
                     System.out.println(validationMessage[4]);
@@ -156,6 +157,10 @@ public class CommandLineDrivers implements CommandLineRunner {
         }
 
         driverService.addDriver(driver);
+    }
+    private UUID findTeamId(String teamName){
+        TeamReadDTO team = teamsClient.getTeamByName(teamName);
+        return team == null ? null : team.getId();
     }
     public void deleteDriver(){
         System.out.println("Enter driver race number: ");

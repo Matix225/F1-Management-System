@@ -2,8 +2,6 @@ package F1.Repositories;
 
 import F1.Entities.Driver;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,6 +13,5 @@ public interface DriverRepository extends JpaRepository<Driver, UUID> {
     public Driver findDriverByRaceNumber(int raceNumber);
     public Driver findDriverByUuid(UUID uuid);
 
-    @Query("SELECT d FROM Driver d WHERE d.currentTeam.name = :teamName")
-    public List<Driver> findDriverByCurrentTeam_Name(@Param("teamName") String teamName);
+    public List<Driver> findDriversByTeamId(UUID teamId);
 }

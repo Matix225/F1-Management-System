@@ -1,5 +1,6 @@
 package F1.Services;
 
+import F1.Clients.DriversClient;
 import F1.Entities.Team;
 import F1.Repositories.TeamRepository;
 import org.springframework.stereotype.Service;
@@ -10,9 +11,11 @@ import java.util.UUID;
 @Service
 public class TeamService {
     private final TeamRepository teamRepository;
+    private final DriversClient driversClient;
 
-    public TeamService(TeamRepository teamRepository){
+    public TeamService(TeamRepository teamRepository, DriversClient driversClient){
         this.teamRepository = teamRepository;
+        this.driversClient = driversClient;
     }
 
     public Team getTeamByUuid(UUID id){
@@ -37,6 +40,9 @@ public class TeamService {
             System.out.println("Team doesn't exists!");
             return -1;
         }
+
+        //drivers of this team live in Drivers-microservice, so they have to be deleted there first
+        driversClient.deleteDriversOfTeam(id);
 
         teamRepository.delete(team);
         return 0;
