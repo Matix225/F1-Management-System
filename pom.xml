@@ -12,5 +12,6 @@
     <modules>
         <module>Drivers-microservice</module>
         <module>Teams-microservice</module>
+        <module>F1-Manager Gateway</module>
     </modules>
 </project>
