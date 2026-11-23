@@ -1,0 +1,87 @@
+### 1. Dodaj nowy zespół (Teams-microservice przez Gateway)
+POST http://localhost:8080/api/teams
+Content-Type: application/json
+
+{
+  "name": "Scuderia Ferrari",
+  "teamLeader": "Frederic Vasseur",
+  "firstEntry": 1950,
+  "totalRaces": 1098,
+  "racesWon": 248,
+  "championshipsWon": 16
+}
+
+> {%
+    client.global.set("teamId", response.body.id);
+%}
+
+### 2. Pobierz wszystkie zespoły
+GET http://localhost:8080/api/teams
+Accept: application/json
+
+### 3. Pobierz utworzony zespół po UUID
+GET http://localhost:8080/api/teams/{{teamId}}
+Accept: application/json
+
+### 4. Zaktualizuj zespół
+PUT http://localhost:8080/api/teams/{{teamId}}
+Content-Type: application/json
+
+{
+  "name": "Scuderia Ferrari HP",
+  "teamLeader": "Frederic Vasseur",
+  "firstEntry": 1950,
+  "totalRaces": 1100,
+  "racesWon": 249,
+  "championshipsWon": 16
+}
+
+### 5. Dodaj kierowcę do utworzonego zespołu (Drivers-microservice przez Gateway)
+POST http://localhost:8080/api/teams/{{teamId}}/drivers
+Content-Type: application/json
+
+{
+  "firstName": "Charles",
+  "lastName": "Leclerc",
+  "age": 27,
+  "raceNumber": 16,
+  "racesEntered": 147,
+  "racesWon": 8,
+  "titlesWon": 0
+}
+
+> {%
+    client.global.set("driverId", response.body.id);
+%}
+
+### 6. Pobierz wszystkich kierowców
+GET http://localhost:8080/api/drivers
+Accept: application/json
+
+### 7. Pobierz kierowców przypisanych do konkretnego zespołu
+GET http://localhost:8080/api/teams/{{teamId}}/drivers
+Accept: application/json
+
+### 8. Zaktualizuj dane kierowcy
+PUT http://localhost:8080/api/teams/{{teamId}}/drivers/{{driverId}}
+Content-Type: application/json
+
+{
+  "firstName": "Charles",
+  "lastName": "Leclerc",
+  "age": 28,
+  "raceNumber": 16,
+  "racesEntered": 150,
+  "racesWon": 10,
+  "titlesWon": 0
+}
+
+### 9. Usuń kierowcę po UUID
+# UWAGA: W GatewayApplication brakuje ścieżki "/api/drivers/*" dla DELETE /api/drivers/{id}
+DELETE http://localhost:8080/api/drivers/{{driverId}}
+
+### 10. Usuń wszystkich kierowców danego zespołu
+DELETE http://localhost:8080/api/teams/{{teamId}}/drivers
+
+### 11. Usuń zespół (powinno również wywołać usunięcie jego kierowców)
+DELETE http://localhost:8080/api/teams/{{teamId}}
