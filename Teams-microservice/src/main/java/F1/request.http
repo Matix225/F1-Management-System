@@ -1,0 +1,75 @@
+###
+GET http://localhost:8081/api/teams
+
+###
+@id = 3d96c518-43c8-494a-be7f-48eb702c37e5
+GET http://localhost:8081/api/teams/{{id}}
+
+###
+DELETE http://localhost:8081/api/teams/{{id}}
+
+###
+POST http://localhost:8081/api/teams
+Content-Type: application/json
+
+{
+  "name": "Scuderia Ferrari HP",
+  "teamLeader": "Frederic Vasseur",
+  "firstEntry": 1950,
+  "totalRaces": 123,
+  "racesWon": 110,
+  "championshipsWon": 16
+}
+###
+PUT http://localhost:8081/api/teams/{{id}}
+Content-Type: application/json
+
+{
+  "name": "Scuderia Ferrari",
+  "teamLeader": "wgwgw",
+  "firstEntry": 1234,
+  "totalRaces": 2327,
+  "racesWon": 123,
+  "championshipsWon": 12
+}
+
+
+
+
+
+###
+GET http://localhost:8082/api/drivers
+###
+@teamID = 7111422e-9d53-407e-9385-3f7854500e5f
+GET http://localhost:8082/api/teams/{{teamID}}/drivers
+###
+@id2 = 344a7a8b-be8e-4853-804a-abb62c5c32d4
+DELETE http://localhost:8082/api/drivers/{{id2}}
+###
+POST http://localhost:8082/api/teams/{{teamID}}/drivers
+Content-Type: application/json
+
+{
+  "firstName": "fwwg",
+  "lastName": "bebhe",
+  "age": 17,
+  "raceNumber": 34,
+  "racesEntered": 453,
+  "racesWon": 123,
+  "titlesWon": 5
+}
+###
+@teamId2 = 344a7a8b-be8e-4853-804a-abb62c5c32d4
+@driverId = 2a417add-a415-4759-979c-853079acf232
+PUT http://localhost:8082/api/teams/{{teamId2}}/drivers/{{driverId}}
+Content-Type: application/json
+
+{
+  "firstName": "Max",
+  "lastName": "Verstappen",
+  "age": 20,
+  "raceNumber": 1,
+  "racesEntered": 12,
+  "racesWon": 40,
+  "titlesWon": 10
+}
